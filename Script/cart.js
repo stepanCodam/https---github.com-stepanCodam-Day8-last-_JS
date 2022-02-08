@@ -150,20 +150,20 @@ function Total() {
         total = total + (val.price * val.qtty);
     }
     if (total >= 10 && total < 30) {
-        newTotal = total * 90 / 100
+        newTotal = total * 95 / 100
 
     } else if (total >= 20 && total < 40) {
-        newTotal = total * 80 / 100
-    } else if (total >= 30 && total < 80) {
-        newTotal = total * 70 / 100
+        newTotal = total * 90 / 100
+    } else if (total >= 30 && total < 100) {
+        newTotal = total * 85 / 100
 
     } else {
-        newTotal = total;
+        newTotal = total * 80 / 100
     }
 
     document.getElementById("newPrice").innerHTML = newTotal.toFixed(2) + "€"
     document.getElementById("price").innerHTML = total.toFixed(2) + " €";
-    allItems()
+
 
 
 }

@@ -2,22 +2,39 @@
  * JavaScricpt Shopping Cart
  */
 var products = [{
-    name: "Cube 2019",
-    image: "Images/cube2019.jpeg",
-    price: 3200.00,
-    qtty: 1
-}, {
-    name: "GT Avalanche",
-    image: "Images/gtavalanche.jpg",
-    price: 2100.00,
-    qtty: 1
-}, {
-    name: "Trek 8",
-    image: "Images/trekfull8.jpg",
-    price: 4500.00,
-    qtty: 1
-}];
+        name: "Orchidea",
+        image: "https://images.pexels.com/photos/992734/pexels-photo-992734.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 8.50,
+        qtty: 1
+    }, {
+        name: "Orange roses",
+        image: "https://images.pexels.com/photos/462402/pexels-photo-462402.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 5.80,
+        qtty: 1
+    }, {
+        name: "Daisy",
+        image: "https://images.pexels.com/photos/1166869/pexels-photo-1166869.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 2.70,
+        qtty: 1
+    }, {
+        name: "Pink roses",
+        image: "https://images.pexels.com/photos/617967/pexels-photo-617967.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 6.70,
+        qtty: 1
+    }, {
+        name: "Sun flowers",
+        image: "https://images.pexels.com/photos/1390433/pexels-photo-1390433.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 3.70,
+        qtty: 1
+    },
+    {
+        name: "White Orchidea",
+        image: "https://images.pexels.com/photos/3686216/pexels-photo-3686216.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        price: 10.70,
+        qtty: 1
+    }
 
+];
 for (let val of products) {
     document.getElementsByClassName("products")[0].innerHTML += `<div class="product col-12 col-md-6 col-lg-4 text-center fw-bold">
     <p class="product-title h3 m-3">${val.name}</p>
@@ -32,16 +49,27 @@ for (let val of products) {
 
 var cart = [];
 
-function addToCart(product) {
-    let item = cart.find((val) => val.name == product.name);
-    if (item) {
-        item.qtty++;
+function addToCart(product, index) {
+
+    if (cart.length == 0) {
+        cart.push(product);
+
+    } else if (cart.find((val) => val.name == product.name)) {
+
+        product.qtty++;
+
     } else {
-        cart.push(product)
+        cart.push(product);
+
     }
     createRows();
+
     Total();
+    allItems()
+
 }
+
+
 
 
 let btns = document.getElementsByClassName("product-button");
@@ -79,34 +107,71 @@ function createRows() {
     let plus = document.getElementsByClassName("plus");
     let minus = document.getElementsByClassName("minus");
     let del = document.getElementsByClassName("del");
-
     for (let i = 0; i < plus.length; i++) {
         plus[i].addEventListener("click", function() {
             plusQtty(i);
             Total();
+            allItems()
+
+
         });
         minus[i].addEventListener("click", function() {
             minusQtty(i);
             Total();
+            allItems()
+
+
         });
         del[i].addEventListener("click", function() {
             deleteItem(i);
             Total();
+
+            allItems()
+
         });
     }
+
+
+}
+
+function allItems() {
+    let allItemsInCard = 0;
+
+    for (let val of cart) {
+        allItemsInCard += val.qtty;
+    }
+    document.getElementById("cardAmmount").innerHTML = allItemsInCard
 }
 
 function Total() {
     let total = 0;
+    let newTotal = 0;
     for (let val of cart) {
         total = total + (val.price * val.qtty);
     }
+    if (total >= 10 && total < 30) {
+        newTotal = total * 90 / 100
+
+    } else if (total >= 20 && total < 40) {
+        newTotal = total * 80 / 100
+    } else if (total >= 30 && total < 80) {
+        newTotal = total * 70 / 100
+
+    } else {
+        newTotal = total;
+    }
+
+    document.getElementById("newPrice").innerHTML = newTotal.toFixed(2) + "€"
     document.getElementById("price").innerHTML = total.toFixed(2) + " €";
+    allItems()
+
+
 }
 
 function plusQtty(i) {
     cart[i].qtty++;
     document.getElementsByClassName("cart-quantity")[i].innerHTML = cart[i].qtty;
+
 }
 
 function minusQtty(i) {
@@ -124,3 +189,8 @@ function deleteItem(i) {
     cart.splice(i, 1);
     createRows();
 }
+
+// function newTotal() {
+//     let discountTwenty = total * 90 / 100;
+//     let discountTwenty = total * 80 / 100;
+// }
